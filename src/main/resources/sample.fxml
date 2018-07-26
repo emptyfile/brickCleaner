@@ -25,6 +25,9 @@
                   <CheckBox fx:id="chromeHistoryCB" layoutX="45.0" layoutY="105.0" mnemonicParsing="false" text="Chrome History" />
                   <CheckBox fx:id="chromeCookiesCB" layoutX="45.0" layoutY="130.0" mnemonicParsing="false" text="Chrome Cookies" />
                   <CheckBox fx:id="googleChromeCB" layoutX="45.0" layoutY="43.0" mnemonicParsing="false" onMouseClicked="#onClickMethodChrome" text="Google Chrome" />
+                  <CheckBox fx:id="systemCB" layoutX="276.0" layoutY="43.0" mnemonicParsing="false" onMouseClicked="#onClickMethodSystem" text="System" />
+                  <CheckBox fx:id="recycleBinCB" layoutX="276.0" layoutY="80.0" mnemonicParsing="false" text="Recycle Bin" />
+                  <CheckBox fx:id="tempFilesCB" layoutX="276.0" layoutY="105.0" mnemonicParsing="false" text="Temporary Files" />
                </children></AnchorPane>
             </items>
         </SplitPane>

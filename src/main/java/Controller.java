@@ -21,12 +21,22 @@ public class Controller {
     public CheckBox chromeCookiesCB;
     @FXML
     public CheckBox googleChromeCB;
+    @FXML
+    public CheckBox systemCB;
+    @FXML
+    public CheckBox recycleBinCB;
+    @FXML
+    public CheckBox tempFilesCB;
 
     @FXML
     void initialize(){
         chromeCookiesCB.setDisable(true);
         chromeHistoryCB.setDisable(true);
         chromeCacheCB.setDisable(true);
+        recycleBinCB.setDisable(true);
+        tempFilesCB.setDisable(true);
+
+
         cleanButton.setOnAction((e)->{
 
             if(chromeCacheCB.isSelected()){
@@ -52,6 +62,18 @@ public class Controller {
                     e1.printStackTrace();
                 }
             }
+
+            if (recycleBinCB.isSelected()){
+                File recycleBin = new File("C:\\$Recycle.Bin");
+                Collection<File> recycleBinCollection = FileUtils.listFiles(recycleBin, null, true);
+                recycleBinCollection.forEach(a->a.delete());
+            }
+
+            if (tempFilesCB.isSelected()){
+                File tempFiles = new File("C:\\Users\\"+USER+"\\AppData\\Local\\Temp");
+                Collection<File> tempFilesCollection = FileUtils.listFiles(tempFiles, null, true);
+                tempFilesCollection.forEach(a->a.delete());
+            }
         });
     }
 
@@ -71,5 +93,20 @@ public class Controller {
             chromeHistoryCB.setSelected(false);
         }
 
+    }
+
+    @FXML
+    public void onClickMethodSystem(MouseEvent mouseEvent) {
+        if (systemCB.isSelected()){
+            recycleBinCB.setDisable(false);
+            recycleBinCB.setSelected(true);
+            tempFilesCB.setDisable(false);
+            tempFilesCB.setSelected(true);
+        }else{
+            recycleBinCB.setSelected(false);
+            recycleBinCB.setDisable(true);
+            tempFilesCB.setSelected(false);
+            tempFilesCB.setDisable(true);
+        }
     }
 }
