@@ -22,6 +22,9 @@
                <children>
                   <Button fx:id="cleanButton" layoutX="12.0" layoutY="378.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="619.0" text="Clean" />
                   <CheckBox fx:id="chromeCacheCB" layoutX="45.0" layoutY="80.0" mnemonicParsing="false" text="Chrome Cache" />
+                  <CheckBox fx:id="chromeHistoryCB" layoutX="45.0" layoutY="105.0" mnemonicParsing="false" text="Chrome History" />
+                  <CheckBox fx:id="chromeCookiesCB" layoutX="45.0" layoutY="130.0" mnemonicParsing="false" text="Chrome Cookies" />
+                  <CheckBox fx:id="googleChromeCB" layoutX="45.0" layoutY="43.0" mnemonicParsing="false" onMouseClicked="#onClickMethodChrome" text="Google Chrome" />
                </children></AnchorPane>
             </items>
         </SplitPane>
