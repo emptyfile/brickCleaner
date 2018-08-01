@@ -2,11 +2,8 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
+import javafx.scene.image.Image;
 import javafx.stage.Stage;
-import org.apache.commons.io.FileUtils;
-
-import java.io.File;
-import java.util.Collection;
 
 public class Main extends Application {
 
@@ -17,6 +14,8 @@ public class Main extends Application {
         primaryStage.setScene(new Scene(root, 800, 800));
         primaryStage.show();
 
+        Image appImage = new Image(getClass().getResource("brick.png").toString());
+        primaryStage.getIcons().add(appImage);
     }
 
 
