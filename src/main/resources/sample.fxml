@@ -3,12 +3,14 @@
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.CheckBox?>
 <?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.ColumnConstraints?>
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.RowConstraints?>
 
-<GridPane alignment="center" hgap="10" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
+<GridPane alignment="center" hgap="10" prefHeight="800.0" prefWidth="800.0" vgap="10" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Controller">
     <columnConstraints>
         <ColumnConstraints />
     </columnConstraints>
@@ -18,13 +20,23 @@
     <children>
         <SplitPane prefHeight="423.0" prefWidth="645.0">
             <items>
-                <AnchorPane fx:id="leftPanel" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+                <AnchorPane fx:id="leftPanel" minHeight="0.0" minWidth="0.0" prefHeight="595.0" prefWidth="720.0">
                <children>
-                  <Button fx:id="cleanButton" layoutX="12.0" layoutY="378.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="619.0" text="Clean" />
+                  <Button fx:id="cleanButton" layoutX="12.0" layoutY="378.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="619.0" style="-fx-background-color:yellow" text="Analize" />
                   <CheckBox fx:id="chromeCacheCB" layoutX="45.0" layoutY="80.0" mnemonicParsing="false" text="Chrome Cache" />
                   <CheckBox fx:id="chromeHistoryCB" layoutX="45.0" layoutY="105.0" mnemonicParsing="false" text="Chrome History" />
                   <CheckBox fx:id="chromeCookiesCB" layoutX="45.0" layoutY="130.0" mnemonicParsing="false" text="Chrome Cookies" />
                   <CheckBox fx:id="googleChromeCB" layoutX="45.0" layoutY="43.0" mnemonicParsing="false" onMouseClicked="#onClickMethodChrome" text="Google Chrome" />
+                  <CheckBox fx:id="systemCB" layoutX="45.0" layoutY="178.0" mnemonicParsing="false" onMouseClicked="#onClickMethodSystem" text="System" />
+                  <CheckBox fx:id="recycleBinCB" layoutX="45.0" layoutY="215.0" mnemonicParsing="false" text="Recycle Bin" />
+                  <CheckBox fx:id="tempFilesCB" layoutX="45.0" layoutY="240.0" mnemonicParsing="false" text="Temporary Files" />
+                  <TableView fx:id="tableView" layoutX="162.0" layoutY="42.0" prefHeight="306.0" prefWidth="436.0">
+                    <columns>
+                      <TableColumn fx:id="picId" prefWidth="28.0" />
+                      <TableColumn fx:id="categoryId" minWidth="0.0" prefWidth="307.0" text="Category" />
+                        <TableColumn fx:id="sizeId" prefWidth="100.0" text="Size(kb)" />
+                    </columns>
+                  </TableView>
                </children></AnchorPane>
             </items>
         </SplitPane>
