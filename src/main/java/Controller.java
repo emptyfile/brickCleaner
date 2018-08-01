@@ -118,13 +118,7 @@ public class Controller {
                 }
 
                 if (chromeHistoryCB.isSelected()){
-                    File chromeHistory = new File("C:\\Users\\"+ USER +"\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
-                    try {
-                        FileUtils.forceDelete(chromeHistory);
-                    } catch (IOException e1) {
-                        showConfirmation();
-                        e1.printStackTrace();
-                    }
+                    deleteChromeHistoryCb(true);
                 }
 
                 if (chromeCookiesCB.isSelected()){
@@ -172,13 +166,27 @@ public class Controller {
         Optional<ButtonType> option = alert.showAndWait();
 
         if (option.get() == null) {
-
+            deleteChromeHistoryCb(false);
         } else if (option.get() == repeat) {
-
+            deleteChromeHistoryCb(true);
         } else if (option.get() == skip) {
-
+            deleteChromeHistoryCb(false);
         } else {
+            deleteChromeHistoryCb(false);
+        }
+    }
 
+    private void deleteChromeHistoryCb(boolean showDialogOnFail) {
+        if (chromeHistoryCB.isSelected()) {
+            File chromeHistory = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
+            try {
+                FileUtils.forceDelete(chromeHistory);
+            } catch (IOException e1) {
+                if (showDialogOnFail) {
+                    showConfirmation();
+                }
+                e1.printStackTrace();
+            }
         }
     }
 
