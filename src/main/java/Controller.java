@@ -2,28 +2,17 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.input.MouseEvent;
-import org.apache.commons.io.FileUtils;
-import java.util.Optional;
-
-import javafx.application.Application;
-import javafx.event.ActionEvent;
-import javafx.event.EventHandler;
-import javafx.geometry.Insets;
-import javafx.scene.Scene;
-import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Label;
-import javafx.scene.layout.VBox;
+import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
-
+import org.apache.commons.io.FileUtils;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
+import java.util.Optional;
 
 public class Controller {
     private static final String USER = System.getProperty("user.name");
@@ -109,7 +98,7 @@ public class Controller {
 
                 tableView.setItems(rowData);
                 cleanButton.setText("Clean");
-                cleanButton.setStyle("-fx-background-color:red");
+                cleanButton.setStyle("-fx-background-color:#bbff99");
             } else {
                 if(chromeCacheCB.isSelected()){
                     File chromeCache = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
@@ -143,7 +132,7 @@ public class Controller {
                 }
                 rowData.clear();
                 cleanButton.setText("Analize");
-                cleanButton.setStyle("-fx-background-color:yellow");
+                cleanButton.setStyle("-fx-background-color: #cce6ff");
             }
         });
     }
@@ -153,6 +142,9 @@ public class Controller {
         Alert alert = new Alert(AlertType.CONFIRMATION);
         alert.setTitle("Google Chrome History Problem");
         alert.setHeaderText("Close Google Chrome and all his processes and try again.");
+
+        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+        stage.getIcons().add(new Image(this.getClass().getResource("brick.png").toString()));
 
         ButtonType repeat = new ButtonType("Repeat");
         ButtonType skip = new ButtonType("Skip");
