@@ -7,8 +7,6 @@ public class CustomImage {
 
     CustomImage(ImageView img) {
         this.image = img;
-        this.image.setFitHeight(16);
-        this.image.setFitWidth(16);
     }
 
     public void setImage(ImageView value) {

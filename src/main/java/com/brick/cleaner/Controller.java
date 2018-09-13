@@ -89,8 +89,8 @@ public class Controller {
         picId.setCellFactory(param -> {
             //Set up the ImageView
             final ImageView imageview = new ImageView();
-            imageview.setFitHeight(50);
-            imageview.setFitWidth(50);
+            imageview.setFitHeight(16);
+            imageview.setFitWidth(16);
 
             //Set up the Table
             TableCell<TableRow, CustomImage> cell = new TableCell<TableRow, CustomImage>() {
