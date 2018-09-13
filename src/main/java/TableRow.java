@@ -1,19 +1,19 @@
 public class TableRow {
-    private String pic;
+    private CustomImage pic;
     private String rowName;
-    private double size;
+    private String size;
 
-    public TableRow(String pic, String rowName, double size) {
+    public TableRow(CustomImage pic, String rowName, String size) {
         this.pic = pic;
         this.rowName = rowName;
         this.size = size;
     }
 
-    public String getPic() {
+    public CustomImage getPic() {
         return pic;
     }
 
-    public void setPic(String pic) {
+    public void setPic(CustomImage pic) {
         this.pic = pic;
     }
 
@@ -25,11 +25,11 @@ public class TableRow {
         this.rowName = rowName;
     }
 
-    public double getSize() {
+    public String getSize() {
         return size;
     }
 
-    public void setSize(double size) {
+    public void setSize(String size) {
         this.size = size;
     }
 }

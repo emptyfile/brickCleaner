@@ -24,37 +24,37 @@
             <items>
                 <AnchorPane fx:id="leftPanel" minHeight="0.0" minWidth="0.0" prefHeight="479.0" prefWidth="534.0">
                <children>
-                  <Button fx:id="cleanButton" layoutX="209.0" layoutY="388.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="436.0" style="-fx-background-color: #cce6ff;" text="Analize" />
-                  <CheckBox fx:id="chromeCacheCB" layoutX="72.0" layoutY="54.0" mnemonicParsing="false" text="Cache" />
-                  <CheckBox fx:id="chromeHistoryCB" layoutX="72.0" layoutY="79.0" mnemonicParsing="false" text="History" />
-                  <CheckBox fx:id="chromeCookiesCB" layoutX="72.0" layoutY="104.0" mnemonicParsing="false" text="Cookies" />
-                  <CheckBox fx:id="googleChromeCB" layoutX="47.0" layoutY="24.0" mnemonicParsing="false" onMouseClicked="#onClickMethodChrome" text="Google Chrome">
+                  <Button fx:id="cleanButton" layoutX="209.0" layoutY="398.0" mnemonicParsing="false" prefHeight="29.0" prefWidth="436.0" style="-fx-background-color: #cce6ff;" text="Analize" />
+                  <CheckBox fx:id="chromeCacheCB" layoutX="72.0" layoutY="70.0" mnemonicParsing="false" text="Cache" />
+                  <CheckBox fx:id="chromeHistoryCB" layoutX="72.0" layoutY="95.0" mnemonicParsing="false" text="History" />
+                  <CheckBox fx:id="chromeCookiesCB" layoutX="72.0" layoutY="120.0" mnemonicParsing="false" text="Cookies" />
+                  <CheckBox fx:id="googleChromeCB" layoutX="47.0" layoutY="40.0" mnemonicParsing="false" onMouseClicked="#onClickMethodChrome" text="Google Chrome">
                      <font>
                         <Font size="14.0" />
                      </font></CheckBox>
-                  <CheckBox fx:id="systemCB" layoutX="46.0" layoutY="149.0" mnemonicParsing="false" onMouseClicked="#onClickMethodSystem" text="System">
+                  <CheckBox fx:id="systemCB" layoutX="46.0" layoutY="165.0" mnemonicParsing="false" onMouseClicked="#onClickMethodSystem" text="System">
                      <font>
                         <Font size="14.0" />
                      </font></CheckBox>
-                  <CheckBox fx:id="recycleBinCB" layoutX="72.0" layoutY="179.0" mnemonicParsing="false" text="Recycle Bin" />
-                  <CheckBox fx:id="tempFilesCB" layoutX="72.0" layoutY="204.0" mnemonicParsing="false" text="Temporary Files" />
-                  <TableView fx:id="tableView" layoutX="209.0" layoutY="24.0" prefHeight="306.0" prefWidth="436.0">
+                  <CheckBox fx:id="recycleBinCB" layoutX="72.0" layoutY="195.0" mnemonicParsing="false" text="Recycle Bin" />
+                  <CheckBox fx:id="tempFilesCB" layoutX="72.0" layoutY="220.0" mnemonicParsing="false" text="Temporary Files" />
+                  <TableView fx:id="tableView" layoutX="209.0" layoutY="22.0" prefHeight="306.0" prefWidth="436.0">
                     <columns>
                       <TableColumn fx:id="picId" prefWidth="28.0" />
                       <TableColumn fx:id="categoryId" minWidth="0.0" prefWidth="307.0" text="Category" />
                         <TableColumn fx:id="sizeId" prefWidth="100.0" text="Size(kb)" />
                     </columns>
                   </TableView>
-                  <CheckBox fx:id="firefoxCB" layoutX="45.0" layoutY="265.0" mnemonicParsing="false" onMouseClicked="#onClickMethodFirefox" text="Firefox">
+                  <CheckBox fx:id="firefoxCB" layoutX="45.0" layoutY="281.0" mnemonicParsing="false" onMouseClicked="#onClickMethodFirefox" text="Firefox">
                      <font>
                         <Font size="14.0" />
                      </font>
                   </CheckBox>
-                  <CheckBox fx:id="firefoxCacheCB" layoutX="71.0" layoutY="297.0" mnemonicParsing="false" text="Cache" />
-                  <CheckBox fx:id="firefoxHistoryCB" layoutX="71.0" layoutY="322.0" mnemonicParsing="false" text="History" />
-                  <CheckBox fx:id="firefoxCookiesCB" layoutX="71.0" layoutY="347.0" mnemonicParsing="false" text="Cookies" />
-                  <CheckBox fx:id="clipboardCB" layoutX="72.0" layoutY="230.0" mnemonicParsing="false" text="Clipboard" />
-                  <ProgressBar layoutX="209.0" layoutY="347.0" prefHeight="29.0" prefWidth="436.0" progress="0.0" />
+                  <CheckBox fx:id="firefoxCacheCB" layoutX="71.0" layoutY="313.0" mnemonicParsing="false" text="Cache" />
+                  <CheckBox fx:id="firefoxHistoryCB" layoutX="71.0" layoutY="338.0" mnemonicParsing="false" text="History" />
+                  <CheckBox fx:id="firefoxCookiesCB" layoutX="71.0" layoutY="363.0" mnemonicParsing="false" text="Cookies" />
+                  <CheckBox fx:id="clipboardCB" layoutX="72.0" layoutY="246.0" mnemonicParsing="false" text="Clipboard" />
+                  <ProgressBar fx:id="progressBar" layoutX="209.0" layoutY="351.0" prefHeight="29.0" prefWidth="436.0" progress="0.0" />
                </children></AnchorPane>
             </items>
         </SplitPane>

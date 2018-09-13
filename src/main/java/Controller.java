@@ -1,3 +1,5 @@
+import javafx.beans.binding.DoubleBinding;
+import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -5,6 +7,7 @@ import javafx.scene.control.*;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
 import javafx.stage.Stage;
 import org.apache.commons.io.FileUtils;
@@ -12,13 +15,18 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.Optional;
 
 public class Controller {
     private ObservableList<TableRow> rowData = FXCollections.observableArrayList();
     private static final String USER = System.getProperty("user.name");
+    private double totalAmount = 0.0;
+    private int boxesChecked = 0;
+    private DoubleBinding doubleBinding = new SimpleDoubleProperty(0.0d).add(0);
+    CustomImage chromeImg =  new CustomImage(new ImageView(new Image(getClass().getResource("brick.png").toString())));
+    @FXML
+    public ProgressBar progressBar;
     @FXML
     public CheckBox clipboardCB;
     @FXML
@@ -48,11 +56,11 @@ public class Controller {
     @FXML
     public TableView<TableRow> tableView;
     @FXML
-    public TableColumn<TableRow, String> picId;
+    public TableColumn<TableRow, CustomImage> picId;
     @FXML
     public TableColumn<TableRow, String> categoryId;
     @FXML
-    public TableColumn<TableRow, Double> sizeId;
+    public TableColumn<TableRow, String> sizeId;
 
 
     @FXML
@@ -66,60 +74,88 @@ public class Controller {
         firefoxCacheCB.setDisable(true);
         firefoxCookiesCB.setDisable(true);
         firefoxHistoryCB.setDisable(true);
+        progressBar.progressProperty().bind(doubleBinding);
 
-        picId.setCellValueFactory(new PropertyValueFactory<TableRow, String>("pic"));
+        picId.setCellValueFactory(new PropertyValueFactory<TableRow, CustomImage>("pic"));
         categoryId.setCellValueFactory(new PropertyValueFactory<TableRow, String>("rowName"));
-        sizeId.setCellValueFactory(new PropertyValueFactory<TableRow, Double>("size"));
+        sizeId.setCellValueFactory(new PropertyValueFactory<TableRow, String>("size"));
 
 
         cleanButton.setOnAction((e)->{
             if (cleanButton.getText().equals("Analize")) {
+                boxesChecked=0;
+                doubleBinding = new SimpleDoubleProperty(0.0d).add(0);
+                progressBar.progressProperty().bind(doubleBinding);
                 double totalFirefoxCache = 0;
                 double totalFirefoxCookies = 0;
                 double totalFirefoxHistory = 0;
+
                 if (chromeCacheCB.isSelected()) {
+                    boxesChecked+=1;
                     File chromeCache = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
                     Collection<File> fileCollection = FileUtils.listFiles(chromeCache, null, true);
                     Long sizeOfChromeCache = fileCollection.stream().map(a -> a.length()).reduce((a, b) -> a + b).orElse(0L);
-                    double rounded = rounder(sizeOfChromeCache / 1024.0);
-                    rowData.add(new TableRow("r", "Google Chrome Cache", rounded));
+                    totalAmount += sizeOfChromeCache;
+                    Size size = rounder(sizeOfChromeCache / 1024.0);
+                    double rounded = size.getSize();
+                    rowData.add(new TableRow(chromeImg, "Google Chrome Cache", rounded + size.getType()));
+                    totalAmount += rounded;
                 }
 
                 if (chromeHistoryCB.isSelected()){
+                    boxesChecked+=1;
                     File chromeHistory = new File("C:\\Users\\"+ USER +"\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\History");
                     long sizeOfChromeHistory = chromeHistory.length();
-                    double roundedChromeHistory = rounder(sizeOfChromeHistory/1024.0);
-                    rowData.add(new TableRow("r", "Google Chrome History", roundedChromeHistory));
+                    totalAmount += sizeOfChromeHistory;
+                    Size size = rounder(sizeOfChromeHistory / 1024.0);
+                    double roundedChromeHistory = size.getSize();
+                    rowData.add(new TableRow(chromeImg, "Google Chrome History", roundedChromeHistory + size.getType()));
+                    totalAmount += roundedChromeHistory;
                 }
 
                 if (chromeCookiesCB.isSelected()){
+                    boxesChecked+=1;
                     File chromeCookies = new File("C:\\Users\\"+ USER+"\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
                     long sizeOfChromeCookies = chromeCookies.length();
-                    double roundedChromeCookies = rounder(sizeOfChromeCookies / 1024.0);
-                    rowData.add(new TableRow("r", "Google Chrome Cookies", roundedChromeCookies));
+                    totalAmount += sizeOfChromeCookies;
+                    Size size = rounder(sizeOfChromeCookies / 1024.0);
+                    double roundedChromeCookies = size.getSize();
+                    rowData.add(new TableRow(chromeImg, "Google Chrome Cookies", roundedChromeCookies + size.getType()));
+                    totalAmount += roundedChromeCookies;
                 }
 
                 if (recycleBinCB.isSelected()){
+                    boxesChecked+=1;
                     File recycleBin = new File("C:\\$Recycle.Bin");
                     Collection<File> recycleBinCollection = FileUtils.listFiles(recycleBin, null, true);
                     Long sizeOfRecycleBin = recycleBinCollection.stream().map(a -> a.length()).reduce((a, b) -> a + b).orElse(0L);
-                    double roundedRecycleBin = rounder(sizeOfRecycleBin / 1024.0);
-                    rowData.add(new TableRow("r", "Recycle Bin", roundedRecycleBin));
+                    totalAmount += sizeOfRecycleBin;
+                    Size size = rounder(sizeOfRecycleBin / 1024.0);
+                    double roundedRecycleBin = size.getSize();
+                    rowData.add(new TableRow(chromeImg, "Recycle Bin", roundedRecycleBin + size.getType()));
+                    totalAmount += roundedRecycleBin;
                 }
 
                 if (tempFilesCB.isSelected()){
+                    boxesChecked+=1;
                     File tempFiles = new File("C:\\Users\\"+USER+"\\AppData\\Local\\Temp");
                     Collection<File> tempFilesCollection = FileUtils.listFiles(tempFiles, null, true);
                     Long sizeOfTempFiles = tempFilesCollection.stream().map(a -> a.length()).reduce((a, b) -> a + b).orElse(0L);
-                    double roundedTempFiles = rounder(sizeOfTempFiles / 1024.0);
-                    rowData.add(new TableRow("r", "Temporary Files", roundedTempFiles));
+                    totalAmount += sizeOfTempFiles;
+                    Size size = rounder(sizeOfTempFiles / 1024.0);
+                    double roundedTempFiles = size.getSize();
+                    rowData.add(new TableRow(chromeImg, "Temporary Files", roundedTempFiles + size.getType()));
+                    totalAmount += roundedTempFiles;
                 }
 
                 if (clipboardCB.isSelected()){
+                    boxesChecked+=1;
                     //TBD
                 }
 
                 if (firefoxCacheCB.isSelected()){
+                    boxesChecked+=1;
+                    Size size = new Size();
                     File file = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles");
                     String[] directories = file.list(new FilenameFilter() {
                         @Override
@@ -132,13 +168,18 @@ public class Controller {
                         File firefoxCache = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + name + "\\cache2");
                         Collection<File> firefoxCacheCollection = FileUtils.listFiles(firefoxCache, null, true);
                         Long sizeOfFirefoxCache = firefoxCacheCollection.stream().map(a -> a.length()).reduce((a, b) -> a + b).orElse(0L);
-                        double roundedFirefoxCache = rounder(sizeOfFirefoxCache / 1024.0);
+                        totalAmount += sizeOfFirefoxCache;
+                        size = rounder(sizeOfFirefoxCache / 1024.0);
+                        double roundedFirefoxCache = size.getSize();
                         totalFirefoxCache += roundedFirefoxCache;
                     }
-                    rowData.add(new TableRow("r", "Firefox Cache", totalFirefoxCache));
+                    rowData.add(new TableRow(chromeImg, "Firefox Cache", totalFirefoxCache + size.getType()));
+                    totalAmount += totalFirefoxCache;
                 }
 
                 if (firefoxCookiesCB.isSelected()){
+                    boxesChecked+=1;
+                    Size size = new Size();
                     File file = new File("C:\\Users\\" + USER + "\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles");
                     String[] directories = file.list(new FilenameFilter() {
                         @Override
@@ -150,13 +191,18 @@ public class Controller {
                         String name = directories[i];
                         File firefoxCookies = new File("C:\\Users\\" + USER + "\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\" + name + "\\cookies.sqlite");
                         long sizeOfFirefoxCookies = firefoxCookies.length();
-                        double roundedFirefoxCookies = rounder(sizeOfFirefoxCookies / 1024.0);
+                        totalAmount += sizeOfFirefoxCookies;
+                        size = rounder(sizeOfFirefoxCookies / 1024.0);
+                        double roundedFirefoxCookies = size.getSize();
                         totalFirefoxCookies += roundedFirefoxCookies;
                     }
-                    rowData.add(new TableRow("r", "Firefox Cookies", totalFirefoxCookies));
+                    rowData.add(new TableRow(chromeImg, "Firefox Cookies", totalFirefoxCookies + size.getType()));
+                    totalAmount += totalFirefoxCookies;
                 }
 
                 if (firefoxHistoryCB.isSelected()){
+                    boxesChecked+=1;
+                    Size size = new Size();
                     File file = new File("C:\\Users\\" + USER + "\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles");
                     String[] directories = file.list(new FilenameFilter() {
                         @Override
@@ -168,84 +214,116 @@ public class Controller {
                         String name = directories[i];
                         File firefoxHistory = new File("C:\\Users\\" + USER + "\\AppData\\Roaming\\Mozilla\\Firefox\\Profiles\\" + name + "\\places.sqlite");
                         long sizeOfFirefoxHistory = firefoxHistory.length();
-                        double roundedFirefoxHistory = rounder(sizeOfFirefoxHistory / 1024.0);
+                        totalAmount += sizeOfFirefoxHistory;
+                        size = rounder(sizeOfFirefoxHistory / 1024.0);
+                        double roundedFirefoxHistory = size.getSize();
                         totalFirefoxHistory += roundedFirefoxHistory;
                     }
-                    rowData.add(new TableRow("r", "Firefox History", totalFirefoxHistory));
+                    rowData.add(new TableRow(chromeImg, "Firefox History", totalFirefoxHistory + size.getType()));
+                    totalAmount += totalFirefoxHistory;
                 }
 
+                Size totalSize = rounder(totalAmount / 1024.0);
+                System.out.println(boxesChecked);
                 tableView.setItems(rowData);
-                cleanButton.setText("Clean");
+                cleanButton.setText("Clean(" + totalSize.getSize() + totalSize.getType() + ")");
                 cleanButton.setStyle("-fx-background-color:#bbff99");
             } else {
-                if(chromeCacheCB.isSelected()){
-                    File chromeCache = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
-                    Collection<File> fileCollection = FileUtils.listFiles(chromeCache, null, true);
-                    fileCollection.forEach(a->a.delete());
-                }
-
-                if (chromeHistoryCB.isSelected()){
-                    deleteChromeHistoryCb(true);
-                }
-
-                if (chromeCookiesCB.isSelected()){
-                    File chromeCookies = new File("C:\\Users\\"+ USER+"\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
-                    try {
-                        FileUtils.forceDelete(chromeCookies);
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-
-                if (recycleBinCB.isSelected()){
-                    File recycleBin = new File("C:\\$Recycle.Bin");
-                    Collection<File> recycleBinCollection = FileUtils.listFiles(recycleBin, null, true);
-                    recycleBinCollection.forEach(a->a.delete());
-                }
-
-                if (tempFilesCB.isSelected()){
-                    File tempFiles = new File("C:\\Users\\"+USER+"\\AppData\\Local\\Temp");
-                    Collection<File> tempFilesCollection = FileUtils.listFiles(tempFiles, null, true);
-                    tempFilesCollection.forEach(a->a.delete());
-                }
-
-                if (clipboardCB.isSelected()){
-                    try {
-                        Process p = Runtime.getRuntime().exec("cmd /c echo.|clip");
-                    } catch (IOException e1) {
-                        e1.printStackTrace();
-                    }
-                }
-
-                if (firefoxCacheCB.isSelected()){
-                    File file = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles");
-                    String[] directories = file.list(new FilenameFilter() {
-                        @Override
-                        public boolean accept(File current, String name) {
-                            return new File(current, name).isDirectory();
-                        }
-                    });
-                    for (int i = 0; i < directories.length; i++) {
-                        String name = directories[i];
-                        File firefoxCache = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + name + "\\cache2");
-                        Collection<File> firefoxCacheCollection = FileUtils.listFiles(firefoxCache, null, true);
-                        firefoxCacheCollection.forEach(a->a.delete());
-                    }
-                }
-
-                if (firefoxCookiesCB.isSelected()){
-                   deleteFirefoxCookies(true);
-                }
-
-                if (firefoxHistoryCB.isSelected()){
-                    deleteFirefoxHistory(true);
-                }
-
+                new Thread(()-> {
+                    cleaning();
+                }).start();
                 rowData.clear();
                 cleanButton.setText("Analize");
                 cleanButton.setStyle("-fx-background-color: #cce6ff");
+
+
             }
         });
+    }
+
+    private void cleaning() {
+        if(chromeCacheCB.isSelected()){
+            File chromeCache = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cache");
+            Collection<File> fileCollection = FileUtils.listFiles(chromeCache, null, true);
+            fileCollection.forEach(a->a.delete());
+            updateProgressBar();
+            threadPause();
+        }
+
+        if (chromeHistoryCB.isSelected()){
+            deleteChromeHistoryCb(true);
+            updateProgressBar();
+            threadPause();
+        }
+
+        if (chromeCookiesCB.isSelected()){
+            File chromeCookies = new File("C:\\Users\\"+ USER+"\\AppData\\Local\\Google\\Chrome\\User Data\\Default\\Cookies");
+            try {
+                FileUtils.forceDelete(chromeCookies);
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            updateProgressBar();
+            threadPause();
+        }
+
+        if (recycleBinCB.isSelected()){
+            File recycleBin = new File("C:\\$Recycle.Bin");
+            Collection<File> recycleBinCollection = FileUtils.listFiles(recycleBin, null, true);
+            recycleBinCollection.forEach(a->a.delete());
+            updateProgressBar();
+            threadPause();
+        }
+
+        if (tempFilesCB.isSelected()){
+            File tempFiles = new File("C:\\Users\\"+USER+"\\AppData\\Local\\Temp");
+            Collection<File> tempFilesCollection = FileUtils.listFiles(tempFiles, null, true);
+            tempFilesCollection.forEach(a->a.delete());
+            updateProgressBar();
+            threadPause();
+        }
+
+        if (clipboardCB.isSelected()){
+            try {
+                Process p = Runtime.getRuntime().exec("cmd /c echo.|clip");
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
+            updateProgressBar();
+            threadPause();
+        }
+
+        if (firefoxCacheCB.isSelected()){
+            File file = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles");
+            String[] directories = file.list(new FilenameFilter() {
+                @Override
+                public boolean accept(File current, String name) {
+                    return new File(current, name).isDirectory();
+                }
+            });
+            for (int i = 0; i < directories.length; i++) {
+                String name = directories[i];
+                File firefoxCache = new File("C:\\Users\\" + USER + "\\AppData\\Local\\Mozilla\\Firefox\\Profiles\\" + name + "\\cache2");
+                Collection<File> firefoxCacheCollection = FileUtils.listFiles(firefoxCache, null, true);
+                firefoxCacheCollection.forEach(a->a.delete());
+            }
+            updateProgressBar();
+            threadPause();
+        }
+
+        if (firefoxCookiesCB.isSelected()){
+           deleteFirefoxCookies(true);
+           updateProgressBar();
+           threadPause();
+        }
+
+        if (firefoxHistoryCB.isSelected()){
+            deleteFirefoxHistory(true);
+            updateProgressBar();
+            threadPause();
+        }
+
+
     }
 
     private void showChromeConfirmation() {
@@ -395,11 +473,28 @@ public class Controller {
             }
     }
 
-    private double rounder(double number){
-        double v = number * 1000;
-        long round = Math.round(v);
-        double res = round / 1000.0;
-        return res;
+    private Size rounder(double number){
+        if (number >= 1024) {
+            number /= 1024;
+            double v = number * 100;
+            long round = Math.round(v);
+            double res = round / 100.0;
+            Size size = new Size(res, "Mb");
+            return size;
+        } else if (number>=1048576) {
+            number /= 1048576;
+            double v = number * 100;
+            long round = Math.round(v);
+            double res = round / 100.0;
+            Size size = new Size(res, "GB");
+            return size;
+        } else {
+            double v = number * 1000;
+            long round = Math.round(v);
+            double res = round / 1000.0;
+            Size size = new Size(res, "kb");
+            return size;
+        }
     }
 
     @FXML
@@ -451,6 +546,35 @@ public class Controller {
           firefoxCacheCB.setDisable(true);
           firefoxCookiesCB.setDisable(true);
           firefoxHistoryCB.setDisable(true);
+        }
+    }
+    public void updateProgressBar() {
+        new Thread(()-> {
+            doubleBinding = doubleBinding.add((double) 1 / boxesChecked);
+            progressBar.progressProperty().unbind();
+            progressBar.progressProperty().bind(doubleBinding);
+            try {
+                Thread.sleep(200);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }).start();
+
+        /*DoubleBinding add = doubleBinding.add((double) 1 / boxesChecked);
+        System.out.println(add.get());
+        System.out.println(doubleBinding.toString());
+        progressBar.progressProperty().unbind();
+        progressBar.progressProperty().bind(add);
+        threadPause();*/
+
+    }
+
+    public void threadPause() {
+        Thread th = Thread.currentThread( );
+        try {
+            Thread.sleep(200);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
         }
     }
 }
