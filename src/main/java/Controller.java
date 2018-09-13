@@ -1,10 +1,17 @@
+import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.SimpleDoubleProperty;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.control.*;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.CheckBox;
+import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TableColumn;
+import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
@@ -327,94 +334,97 @@ public class Controller {
     }
 
     private void showChromeConfirmation() {
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Google Chrome History Problem");
+            alert.setHeaderText("Close Google Chrome and all his processes and try again.");
 
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Google Chrome History Problem");
-        alert.setHeaderText("Close Google Chrome and all his processes and try again.");
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(this.getClass().getResource("brick.png").toString()));
 
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(this.getClass().getResource("brick.png").toString()));
+            ButtonType repeat = new ButtonType("Repeat");
+            ButtonType skip = new ButtonType("Skip");
 
-        ButtonType repeat = new ButtonType("Repeat");
-        ButtonType skip = new ButtonType("Skip");
+            // Remove default ButtonTypes
+            alert.getButtonTypes().clear();
 
-        // Remove default ButtonTypes
-        alert.getButtonTypes().clear();
+            alert.getButtonTypes().addAll(repeat, skip);
 
-        alert.getButtonTypes().addAll(repeat, skip);
-
-        // option != null.
-        Optional<ButtonType> option = alert.showAndWait();
-
-        if (option.get() == null) {
-            deleteChromeHistoryCb(false);
-        } else if (option.get() == repeat) {
-            deleteChromeHistoryCb(true);
-        } else if (option.get() == skip) {
-            deleteChromeHistoryCb(false);
-        } else {
-            deleteChromeHistoryCb(false);
-        }
+            // option != null.
+            alert.showAndWait().ifPresent(type -> {
+                if (type == repeat) {
+                    deleteChromeHistoryCb(true);
+                } else if (type == skip) {
+                    deleteChromeHistoryCb(false);
+                } else {
+                    deleteChromeHistoryCb(false);
+                }
+            });
+        });
     }
 
     private void showFirefoxHistoryConfirmation() {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Firefox History Problem");
-        alert.setHeaderText("Close Firefox and all his processes and try again.");
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Firefox History Problem");
+            alert.setHeaderText("Close Firefox and all his processes and try again.");
 
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(this.getClass().getResource("brick.png").toString()));
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(this.getClass().getResource("brick.png").toString()));
 
-        ButtonType repeat = new ButtonType("Repeat");
-        ButtonType skip = new ButtonType("Skip");
+            ButtonType repeat = new ButtonType("Repeat");
+            ButtonType skip = new ButtonType("Skip");
 
-        // Remove default ButtonTypes
-        alert.getButtonTypes().clear();
+            // Remove default ButtonTypes
+            alert.getButtonTypes().clear();
 
-        alert.getButtonTypes().addAll(repeat, skip);
+            alert.getButtonTypes().addAll(repeat, skip);
 
-        // option != null.
-        Optional<ButtonType> option = alert.showAndWait();
+            // option != null.
+            Optional<ButtonType> option = alert.showAndWait();
 
-        if (option.get() == null) {
-            deleteFirefoxHistory(false);
-        } else if (option.get() == repeat) {
-            deleteFirefoxHistory(true);
-        } else if (option.get() == skip) {
-            deleteFirefoxHistory(false);
-        } else {
-            deleteFirefoxHistory(false);
-        }
+            if (option.get() == null) {
+                deleteFirefoxHistory(false);
+            } else if (option.get() == repeat) {
+                deleteFirefoxHistory(true);
+            } else if (option.get() == skip) {
+                deleteFirefoxHistory(false);
+            } else {
+                deleteFirefoxHistory(false);
+            }
+        });
     }
 
     private void showFirefoxCookiesConfirmation() {
-        Alert alert = new Alert(AlertType.CONFIRMATION);
-        alert.setTitle("Firefox Cookies Problem");
-        alert.setHeaderText("Close Firefox and all his processes and try again.");
+        Platform.runLater(() -> {
+            Alert alert = new Alert(AlertType.CONFIRMATION);
+            alert.setTitle("Firefox Cookies Problem");
+            alert.setHeaderText("Close Firefox and all his processes and try again.");
 
-        Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
-        stage.getIcons().add(new Image(this.getClass().getResource("brick.png").toString()));
+            Stage stage = (Stage) alert.getDialogPane().getScene().getWindow();
+            stage.getIcons().add(new Image(this.getClass().getResource("brick.png").toString()));
 
-        ButtonType repeat = new ButtonType("Repeat");
-        ButtonType skip = new ButtonType("Skip");
+            ButtonType repeat = new ButtonType("Repeat");
+            ButtonType skip = new ButtonType("Skip");
 
-        // Remove default ButtonTypes
-        alert.getButtonTypes().clear();
+            // Remove default ButtonTypes
+            alert.getButtonTypes().clear();
 
-        alert.getButtonTypes().addAll(repeat, skip);
+            alert.getButtonTypes().addAll(repeat, skip);
 
-        // option != null.
-        Optional<ButtonType> option = alert.showAndWait();
+            // option != null.
+            Optional<ButtonType> option = alert.showAndWait();
 
-        if (option.get() == null) {
-            deleteFirefoxCookies(false);
-        } else if (option.get() == repeat) {
-            deleteFirefoxCookies(true);
-        } else if (option.get() == skip) {
-            deleteFirefoxCookies(false);
-        } else {
-            deleteFirefoxCookies(false);
-        }
+            if (option.get() == null) {
+                deleteFirefoxCookies(false);
+            } else if (option.get() == repeat) {
+                deleteFirefoxCookies(true);
+            } else if (option.get() == skip) {
+                deleteFirefoxCookies(false);
+            } else {
+                deleteFirefoxCookies(false);
+            }
+        });
     }
 
     private void deleteFirefoxCookies(boolean showDialogOnFail) {
