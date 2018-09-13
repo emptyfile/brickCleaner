@@ -11,12 +11,12 @@ public class Main extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception{
-        Parent root = FXMLLoader.load(getClass().getResource("sample.fxml"));
+        Parent root = FXMLLoader.load(getClass().getResource("/sample.fxml"));
         primaryStage.setTitle("Brick Cleaner");
         primaryStage.setScene(new Scene(root, 700, 500));
         primaryStage.show();
 
-        Image appImage = new Image(getClass().getResource("brick.png").toString());
+        Image appImage = new Image(getClass().getResource("/brick.png").toString());
         primaryStage.getIcons().add(appImage);
     }
 

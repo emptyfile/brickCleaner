@@ -1,6 +1,8 @@
 package com.brick.cleaner;
 
-public class TableRow {
+import java.io.Serializable;
+
+public class TableRow implements Serializable {
     private CustomImage pic;
     private String rowName;
     private String size;

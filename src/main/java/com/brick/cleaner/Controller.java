@@ -12,6 +12,7 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.CheckBox;
 import javafx.scene.control.ProgressBar;
+import javafx.scene.control.TableCell;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -33,7 +34,7 @@ public class Controller {
     private double totalAmount = 0.0;
     private int boxesChecked = 0;
     private DoubleBinding doubleBinding = new SimpleDoubleProperty(0.0d).add(0);
-    CustomImage chromeImg =  new CustomImage(new ImageView(new Image(getClass().getResource("brick.png").toString())));
+    CustomImage chromeImg =  new CustomImage(new ImageView(new Image(getClass().getResource("/brick.png").toString())));
     @FXML
     public ProgressBar progressBar;
     @FXML
@@ -85,9 +86,27 @@ public class Controller {
         firefoxHistoryCB.setDisable(true);
         progressBar.progressProperty().bind(doubleBinding);
 
-        picId.setCellValueFactory(new PropertyValueFactory<TableRow, CustomImage>("pic"));
-        categoryId.setCellValueFactory(new PropertyValueFactory<TableRow, String>("rowName"));
-        sizeId.setCellValueFactory(new PropertyValueFactory<TableRow, String>("size"));
+        picId.setCellFactory(param -> {
+            //Set up the ImageView
+            final ImageView imageview = new ImageView();
+            imageview.setFitHeight(50);
+            imageview.setFitWidth(50);
+
+            //Set up the Table
+            TableCell<TableRow, CustomImage> cell = new TableCell<TableRow, CustomImage>() {
+                public void updateItem(CustomImage item, boolean empty) {
+                    if (item != null) {
+                        imageview.setImage(item.getImage().getImage());
+                    }
+                }
+            };
+            // Attach the imageview to the cell
+            cell.setGraphic(imageview);
+            return cell;
+        });
+        picId.setCellValueFactory(new PropertyValueFactory<>("pic"));
+        categoryId.setCellValueFactory(new PropertyValueFactory<>("rowName"));
+        sizeId.setCellValueFactory(new PropertyValueFactory<>("size"));
 
 
         cleanButton.setOnAction((e)->{
