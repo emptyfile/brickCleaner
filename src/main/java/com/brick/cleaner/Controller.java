@@ -34,7 +34,7 @@ public class Controller {
     private double totalAmount = 0.0;
     private int boxesChecked = 0;
     private DoubleBinding doubleBinding = new SimpleDoubleProperty(0.0d).add(0);
-    CustomImage chromeImg =  new CustomImage(new ImageView(new Image(getClass().getResource("/brick.png").toString())));
+    CustomImage chromeImg =  new CustomImage(new ImageView(new Image(getClass().getResource("/chrome.png").toString())));
     @FXML
     public ProgressBar progressBar;
     @FXML
