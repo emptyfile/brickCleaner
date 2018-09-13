@@ -1,3 +1,5 @@
+package com.brick.cleaner;
+
 public class TableRow {
     private CustomImage pic;
     private String rowName;

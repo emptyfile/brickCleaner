@@ -1,3 +1,5 @@
+package com.brick.cleaner;
+
 import javafx.application.Platform;
 import javafx.beans.binding.DoubleBinding;
 import javafx.beans.property.SimpleDoubleProperty;

@@ -24,7 +24,7 @@
                         <artifactId>javafx-maven-plugin</artifactId>
                         <version>LATEST</version>
                         <configuration>
-                            <mainClass>Main</mainClass>
+                            <mainClass>com.brick.cleaner.Main</mainClass>
                         </configuration>
                     </plugin>
                     <plugin>

@@ -1,3 +1,5 @@
+package com.brick.cleaner;
+
 import javafx.scene.image.ImageView;
 
 public class CustomImage {

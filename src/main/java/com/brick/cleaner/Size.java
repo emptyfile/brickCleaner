@@ -1,3 +1,5 @@
+package com.brick.cleaner;
+
 public class Size {
     private double size;
     private String type;
